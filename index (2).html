@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora com Foto</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+      padding: 20px;
+    }
+
+    .calculadora {
+      width: 340px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      position: relative;
+    }
+
+    .foto-perfil {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, 0.7);
+      object-fit: cover;
+      background: #fff;
+    }
+
+    .titulo {
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 14px;
+      padding-right: 72px;
+    }
+
+    .display {
+      width: 100%;
+      height: 80px;
+      border: none;
+      border-radius: 16px;
+      margin-bottom: 18px;
+      padding: 15px;
+      font-size: 2rem;
+      text-align: right;
+      background: rgba(255, 255, 255, 0.92);
+      color: #111827;
+      outline: none;
+    }
+
+    .botoes {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      height: 62px;
+      border: none;
+      border-radius: 16px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+      opacity: 0.95;
+    }
+
+    .numero {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .operador {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .limpar {
+      background: #ef4444;
+      color: white;
+    }
+
+    .igual {
+      background: #10b981;
+      color: white;
+      grid-column: span 2;
+    }
+
+    .zero {
+      grid-column: span 2;
+    }
+
+    .rodape {
+      text-align: center;
+      color: rgba(255,255,255,0.8);
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculadora">
+    <!-- Troque o arquivo abaixo pela sua foto -->
+    <img src="default.jpg" alt="Minha foto" class="foto-perfil">
+
+    <div class="titulo">Minha Calculadora</div>
+
+    <input type="text" id="display" class="display" disabled>
+
+    <div class="botoes">
+      <button class="limpar" onclick="limparDisplay()">C</button>
+      <button class="operador" onclick="adicionarValor('/')">÷</button>
+      <button class="operador" onclick="adicionarValor('*')">×</button>
+      <button class="operador" onclick="apagarUltimo()">⌫</button>
+
+      <button class="numero" onclick="adicionarValor('7')">7</button>
+      <button class="numero" onclick="adicionarValor('8')">8</button>
+      <button class="numero" onclick="adicionarValor('9')">9</button>
+      <button class="operador" onclick="adicionarValor('-')">−</button>
+
+      <button class="numero" onclick="adicionarValor('4')">4</button>
+      <button class="numero" onclick="adicionarValor('5')">5</button>
+      <button class="numero" onclick="adicionarValor('6')">6</button>
+      <button class="operador" onclick="adicionarValor('+')">+</button>
+
+      <button class="numero" onclick="adicionarValor('1')">1</button>
+      <button class="numero" onclick="adicionarValor('2')">2</button>
+      <button class="numero" onclick="adicionarValor('3')">3</button>
+      <button class="igual" onclick="calcular()">=</button>
+
+      <button class="numero zero" onclick="adicionarValor('0')">0</button>
+      <button class="numero" onclick="adicionarValor('.')">.</button>
+    </div>
+
+    <div class="rodape">Feita com HTML + CSS + JavaScript</div>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+
+    function adicionarValor(valor) {
+      display.value += valor;
+    }
+
+    function limparDisplay() {
+      display.value = '';
+    }
+
+    function apagarUltimo() {
+      display.value = display.value.slice(0, -1);
+    }
+
+    function calcular() {
+      try {
+        if (display.value.trim() === '') return;
+        display.value = eval(display.value);
+      } catch {
+        display.value = 'Erro';
+      }
+    }
+
+    document.addEventListener('keydown', (event) => {
+      const tecla = event.key;
+
+      if ('0123456789+-*/.'.includes(tecla)) {
+        adicionarValor(tecla);
+      } else if (tecla === 'Enter') {
+        calcular();
+      } else if (tecla === 'Backspace') {
+        apagarUltimo();
+      } else if (tecla === 'Escape') {
+        limparDisplay();
+      }
+    });
+  </script>
+</body>
+</html>
